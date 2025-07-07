@@ -11,6 +11,9 @@
     --base-color:#275779;
 }
 
+.add-btn{
+    background-color: green;
+}
 .comp-prec{
     font-weight: bold;
 }
