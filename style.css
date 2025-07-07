@@ -10,7 +10,27 @@
     --text-color:#FFFBDE;
     --base-color:#275779;
 }
+.list-container {
+    background-color: var(--light-back-color);
+    text-align: center;
+    border-radius: 12px;
+    border: solid black;
+    padding: 12px;
+    max-width: 600px;
+    margin: 24px auto 0 auto; /* Top-centered */
+}
 
+.todo-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.center-box {
+    margin-top: 12px;
+    display: flex;
+    justify-content: center;
+}
 .error-message {
     color: red;
     font-size: 0.9em;
@@ -24,19 +44,22 @@ input.error {
 .add-btn{
     border-style: none;
     background-color: green;
-
-}
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    }
 .comp-prec{
     font-weight: bold;
 }
-
-.todo-list {
-    list-style: none;
+h1{
+    text-align: center;
 }
+
 
 .todo-item {
     display: flex;
     align-items: center; 
+    justify-content: center;
     gap: 10px;
 }
 
