@@ -1,0 +1,120 @@
+:root{
+    --base-color: #FFFBDE;
+    --text-color:black;
+    --light-back-color: #9aabb4;
+    --dark-back-color: #749BC2;
+}
+
+.darkmode{
+    --light-back-color: #1B3C53;
+    --text-color:#FFFBDE;
+    --base-color:#275779;
+}
+
+.todo-list {
+    list-style: none;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+}
+
+.todo-item input
+ {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.todo-item input[type='image']{
+    border-style: none;
+    border-radius: 0px;
+}
+
+.todo-item input[type='checkbox']{
+    border-radius: 4px;
+}
+
+.editable-text {
+    cursor: pointer;
+    user-select: none; 
+}
+
+.editable-text .editing {
+    user-select: text;
+    outline: 1px solid #007BFF;
+    background: #eef6ff;
+}
+
+body{
+    background-color: var(--base-color);
+    color:var(--text-color)
+}
+
+a:link, a:visited{
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+
+form{
+    background-color: var(--light-back-color);
+    text-align: center;
+    border-radius: 12px;
+    border-color: black;
+    border-style:solid;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.input-box{
+    margin-top:10px;
+    margin-bottom:10px;
+
+}
+input{
+    border-radius: 7px;
+    border-style: solid;
+}
+form > button{
+    margin-bottom: 12px;
+}
+.center-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#theme-switch{
+    height: 50px;
+    width: 50px;
+    padding: 0;
+    border-radius: 25%;
+    background-color: var(--base-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:fixed;
+    top: 40px;
+    right:20px;
+}
+#theme-switch img{
+    fill: var(--primary-color)
+}
+
+/* These lines make it so that only one image is shown at a time 
+(first child is the moon and last child (second child) is the sun) */
+#theme-switch img:last-child{
+    display: none;
+}
+.darkmode #theme-switch img:first-child{
+    display: none;
+}
+.darkmode #theme-switch img:last-child{
+    display: block;
+}
+
+
