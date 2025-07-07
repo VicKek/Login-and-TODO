@@ -15,38 +15,63 @@ function isValidPassword(password) {
     return regex.test(password);
 }
 
-// Form validation logic
-form.addEventListener("submit", function (e) {
-    e.preventDefault(); 
+form.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
     let isValid = true;
 
+    // clear from previous errors 
     usernameEmailError.textContent = "";
     passwordError.textContent = "";
     usernameEmailInput.classList.remove("error");
     passwordInput.classList.remove("error");
 
-    if (!usernameEmailInput.value) {
-        usernameEmailError.textContent = "Username or Email is required!";
-        usernameEmailInput.classList.add("error");
-        isValid = false;
-    } else if (!isValidEmail(usernameEmailInput.value) && !usernameEmailInput.value.includes("@")) {
-        usernameEmailError.textContent = "Please enter a valid email address!";
-        usernameEmailInput.classList.add("error");
-        isValid = false;
-    }
+    const usernameOrEmail = usernameEmailInput.value.trim();
+    const password = passwordInput.value;
+    
+    if (!usernameOrEmail) {
+    usernameEmailError.textContent = "Username or Email is required!";
+    usernameEmailInput.classList.add("error");
+    isValid = false;
+    } else {
+        if (usernameOrEmail.includes("@")) {
+            // Treat as email
+            if (!isValidEmail(usernameOrEmail)) {
+                usernameEmailError.textContent = "Invalid email format!";
+                usernameEmailInput.classList.add("error");
+                isValid = false;
+            }}}
 
-    if (!passwordInput.value) {
-        passwordError.textContent = "Password is required!";
+    if (!password) {
         passwordInput.classList.add("error");
         isValid = false;
-    } else if (!isValidPassword(passwordInput.value)) {
+    } else if (!isValidPassword(password)) {
         passwordError.textContent = "Password must be at least 8 characters long and contain both letters and numbers!";
         passwordInput.classList.add("error");
         isValid = false;
     }
 
     if (isValid) {
-        form.submit(); 
+        try {
+            const response = await fetch("users_data.json");
+            const users = await response.json();
+
+            const user = users.find(u =>
+                (u.username === usernameOrEmail || u.email === usernameOrEmail) &&
+                u.password === password
+            );
+
+            if (user) {
+                window.location.href = "todo.html";
+                localStorage.setItem("loggedInUser", JSON.stringify(user));
+            } else {
+                passwordError.textContent = "Incorrect username/email or password.";
+                usernameEmailInput.classList.add("error");
+                passwordInput.classList.add("error");
+            }
+        } catch (err) {
+            console.error("Error fetching users:", err);
+            alert("Something went wrong. Please try again later.");
+        }
     }
 });
