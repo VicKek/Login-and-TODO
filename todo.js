@@ -75,7 +75,6 @@ function createTodoItem() {
         updateCompletion();
     })
 
-
     newItem.appendChild(checkbox);
     newItem.appendChild(taskText);
     newItem.appendChild(deleteIcon);
