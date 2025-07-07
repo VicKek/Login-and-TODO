@@ -11,10 +11,19 @@
     --base-color:#275779;
 }
 
+.error-message {
+    color: red;
+    font-size: 12px;
+    display: none; /* Initially hidden */
+}
+
+input.error {
+    border: 1px solid red;
+}
 .add-btn{
     border-style: none;
     background-color: green;
-    
+
 }
 .comp-prec{
     font-weight: bold;

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User and Task Management</title>
+</head>
+<body>
+    <h1>User and Task Management</h1>
+
+    <script>
+        // Your JavaScript code here
+        class User {
+            static _ID = 0;
+
+            constructor(username, password, email) {
+                this.username = username;
+                this.password = password;
+                this.email = email;
+                this.id = ++User._ID;
+                this.tasks = [];
+            }
+
+            getUsername() { return this.username; }
+            getPassword() { return this.password; }
+            getEmail() { return this.email; }
+            getID() { return this.id; }
+            getTasks() { return this.tasks; }
+
+            setUsername(newUsername) { this.username = newUsername; }
+            setPassword(newPassword) { this.password = newPassword; }
+            setEmail(newEmail) { this.email = newEmail; }
+
+            addTask(task) {
+                this.tasks.push(task);
+            }
+
+            removeTask(taskID) {
+                this.tasks = this.tasks.filter(task => task.id !== taskID);
+            }
+        }
+
+        // Define Task class
+        class Task {
+            static _ID = 0;
+
+            constructor(taskName) {
+                this.id = ++Task._ID; // Add a static ID for each task
+                this.taskName = taskName;
+                this.completed = false;  
+            }
+
+            getTaskName() { return this.taskName; }
+            isCompleted() { return this.completed; }
+
+            setTaskName(taskName) { this.taskName = taskName; }
+            setCompleted(status) { this.completed = status; }
+        }
+
+        // Create some users and tasks
+        let user1 = new User("john_doe", "password123", "john@example.com");
+        let task1 = new Task("Buy groceries");
+        let task2 = new Task("Finish homework");
+
+        user1.addTask(task1);
+        user1.addTask(task2);
+
+        let user2 = new User("jane_doe", "securePassword456", "jane@example.com");
+        let task3 = new Task("Clean the house");
+        let task4 = new Task("Go to the gym");
+
+        user2.addTask(task3);
+        user2.addTask(task4);
+
+        // Create an array of users to be saved as JSON
+        let users = [user1, user2];
+
+        // Convert users to a JSON-compatible structure
+        let usersData = users.map(user => {
+            return {
+                id: user.getID(),
+                username: user.getUsername(),
+                email: user.getEmail(),
+                password: user.getPassword(),
+                tasks: user.getTasks().map(task => ({
+                    id: task.id,
+                    taskName: task.getTaskName(),
+                    completed: task.isCompleted()
+                }))
+            };
+        });
+
+        // Convert the data to JSON format
+        let jsonData = JSON.stringify(usersData, null, 4);  // Pretty print with 4 spaces
+
+        // Trigger the download of the JSON file immediately
+        function downloadJSON(data) {
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'users_data.json';  // File name
+            a.click();  // Simulate the click to trigger the download
+            URL.revokeObjectURL(url); // Clean up the URL object
+        }
+
+        // Call the function to download the file immediately
+        downloadJSON(jsonData);
+    </script>
+</body>
+</html>

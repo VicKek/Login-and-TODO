@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "username": "john_doe",
+        "email": "john@example.com",
+        "password": "password123",
+        "tasks": [
+            {
+                "id": 1,
+                "taskName": "Buy groceries",
+                "completed": false
+            },
+            {
+                "id": 2,
+                "taskName": "Finish homework",
+                "completed": false
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "username": "jane_doe",
+        "email": "jane@example.com",
+        "password": "securePassword456",
+        "tasks": [
+            {
+                "id": 3,
+                "taskName": "Clean the house",
+                "completed": false
+            },
+            {
+                "id": 4,
+                "taskName": "Go to the gym",
+                "completed": false
+            }
+        ]
+    }
+]

@@ -24,18 +24,20 @@
     </button>
     </header>
     <div class="center-box">
-        <form action="">
-            <p>Enter your Credentials Below!</p>
-            <div class="input-box">
-                <input type="text" placeholder="Username or Email" required>
-            </div>
-            <div class="input-box">
-                <input type="password" placeholder="Password" required>
-            </div>
-            <button type="submit" class="submit-buttton">Login</button>
+    <form id="login-form">
+        <p>Enter your Credentials Below!</p>
+        <div class="input-box">
+            <input type="text" id="username-email" placeholder="Username or Email" required>
+            <span id="username-email-error" class="error-message"></span>
+        </div>
+        <div class="input-box">
+            <input type="password" id="password" placeholder="Password" required>
+            <span id="password-error" class="error-message"></span>
+        </div>
+        <button type="submit" class="submit-button">Login</button>
 
-            <p>Don't have an account yet? <a href="register.html">Register here!</a></p>
-        </form>
-    </div>
+        <p>Don't have an account yet? <a href="register.html">Register here!</a></p>
+    </form>
+</div>
 </body>
 </html>
