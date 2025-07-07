@@ -12,7 +12,9 @@
 }
 
 .add-btn{
+    border-style: none;
     background-color: green;
+    
 }
 .comp-prec{
     font-weight: bold;
@@ -35,7 +37,7 @@
     cursor: pointer;
 }
 
-.todo-item input[type='image']{
+.delete-bin{
     border-style: none;
     border-radius: 0px;
 }
