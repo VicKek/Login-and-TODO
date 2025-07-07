@@ -13,7 +13,6 @@ function makeTextEditable(p) {
         p.contentEditable = "false";
         p.classList.remove('editing');
 
-        // Save edited name to localStorage
         const parent = p.closest('.todo-item');
         const taskId = parseInt(parent.id);
         const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));

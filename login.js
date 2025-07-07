@@ -5,11 +5,11 @@ const passwordInput = document.getElementById("password");
 const usernameEmailError = document.getElementById("username-email-error");
 const passwordError = document.getElementById("password-error");
 
+// Validation functions 
 function isValidEmail(email) {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     return regex.test(email);
 }
-
 function isValidPassword(password) {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     return regex.test(password);
@@ -51,10 +51,11 @@ form.addEventListener("submit", async function (e) {
     }
 
     if (isValid) {
-        
+        // Load data from file
         const response = await fetch("users_data.json");
         const users = await response.json();
 
+        // If a user haing this info exists
         const user = users.find(u =>
             (u.username === usernameOrEmail || u.email === usernameOrEmail) &&
             u.password === password
