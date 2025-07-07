@@ -11,6 +11,10 @@
     --base-color:#275779;
 }
 
+.comp-prec{
+    font-weight: bold;
+}
+
 .todo-list {
     list-style: none;
 }
