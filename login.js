@@ -30,12 +30,11 @@ form.addEventListener("submit", async function (e) {
     const password = passwordInput.value;
     
     if (!usernameOrEmail) {
-    usernameEmailError.textContent = "Username or Email is required!";
     usernameEmailInput.classList.add("error");
     isValid = false;
     } else {
+        // If it is an email (has @)
         if (usernameOrEmail.includes("@")) {
-            // Treat as email
             if (!isValidEmail(usernameOrEmail)) {
                 usernameEmailError.textContent = "Invalid email format!";
                 usernameEmailInput.classList.add("error");
@@ -52,26 +51,23 @@ form.addEventListener("submit", async function (e) {
     }
 
     if (isValid) {
-        try {
-            const response = await fetch("users_data.json");
-            const users = await response.json();
+        
+        const response = await fetch("users_data.json");
+        const users = await response.json();
 
-            const user = users.find(u =>
-                (u.username === usernameOrEmail || u.email === usernameOrEmail) &&
-                u.password === password
-            );
+        const user = users.find(u =>
+            (u.username === usernameOrEmail || u.email === usernameOrEmail) &&
+            u.password === password
+        );
 
-            if (user) {
-                window.location.href = "todo.html";
-                localStorage.setItem("loggedInUser", JSON.stringify(user));
-            } else {
-                passwordError.textContent = "Incorrect username/email or password.";
-                usernameEmailInput.classList.add("error");
-                passwordInput.classList.add("error");
-            }
-        } catch (err) {
-            console.error("Error fetching users:", err);
-            alert("Something went wrong. Please try again later.");
+        if (user) {
+            window.location.href = "todo.html";
+            localStorage.setItem("loggedInUser", JSON.stringify(user));
+        } else {
+            passwordError.textContent = "Incorrect username/email or password.";
+            usernameEmailInput.classList.add("error");
+            passwordInput.classList.add("error");
         }
+        
     }
 });
