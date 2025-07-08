@@ -4,7 +4,28 @@
     --light-back-color: #9aabb4;
     --dark-back-color: #749BC2;
 }
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    align-items: center;
+    justify-items: center; 
+    gap: 10px;
+    width: 100%; 
+}
+.clear-btn {
+    grid-column: 1;
+    justify-self: center; 
+}
 
+.add-btn {
+    grid-column: 2;
+    justify-self: center; 
+}
+
+.logout {
+    grid-column: 3;
+    justify-self: center; 
+}
 .darkmode{
     --light-back-color: #1B3C53;
     --text-color:#FFFBDE;
@@ -136,7 +157,7 @@ form > button{
     padding: 0;
     border-radius: 25%;
     background-color: var(--base-color);
-    display: flex;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
     position:fixed;

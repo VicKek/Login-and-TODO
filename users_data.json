@@ -14,6 +14,11 @@
                 "id": 2,
                 "taskName": "Finish homework",
                 "completed": false
+            },
+            {
+                "id": 3,
+                "taskName": "KAFES",
+                "completed": false
             }
         ]
     },
@@ -24,12 +29,12 @@
         "password": "securePassword456",
         "tasks": [
             {
-                "id": 3,
+                "id": 4,
                 "taskName": "Clean the house",
                 "completed": false
             },
             {
-                "id": 4,
+                "id": 5,
                 "taskName": "Go to the gym",
                 "completed": false
             }
