@@ -15,6 +15,7 @@
 .clear-btn {
     grid-column: 1;
     justify-self: center; 
+    display: none;
 }
 
 .add-btn {

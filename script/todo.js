@@ -93,7 +93,7 @@ function loadTasksFromLocalStorage() {
 // -----------------------------------------
 // Load tasks from file
 // -----------------------------------------
-async function loadTasks() {
+function loadTasks() {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
     if (!loggedInUser) {
@@ -112,7 +112,6 @@ async function loadTasks() {
         }
     }
 
-    // Optionally pre-fill tasks on first login (only if you want this!)
     if (!userHasTasks && loggedInUser.tasks) {
         for (let task of loggedInUser.tasks) {
             localStorage.setItem(`task-${task.id}`, JSON.stringify(task));
