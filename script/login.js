@@ -1,3 +1,5 @@
+import { isValidEmail, isValidPassword } from './validation.js';
+
 const form = document.getElementById("login-form");
 const usernameEmailInput = document.getElementById("username-email");
 const passwordInput = document.getElementById("password");
@@ -5,15 +7,6 @@ const passwordInput = document.getElementById("password");
 const usernameEmailError = document.getElementById("username-email-error");
 const passwordError = document.getElementById("password-error");
 
-// Validation functions 
-function isValidEmail(email) {
-    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return regex.test(email);
-}
-function isValidPassword(password) {
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    return regex.test(password);
-}
 
 form.addEventListener("submit", async function (e) {
     e.preventDefault();
