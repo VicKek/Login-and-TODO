@@ -12,10 +12,10 @@ const emailInput = document.querySelector('.email input');
 const passOneInput = document.querySelector('.password-one input');
 const passTwoInput = document.querySelector('.password-two input');
 
-const usernameError = document.querySelector('.username .error-msg');
-const emailError = document.querySelector('.email .error-msg');
-const passOneError = document.querySelector('.password-one .error-msg');
-const passTwoError = document.querySelector('.password-two .error-msg');
+const usernameError = document.querySelector('.username .error-message');
+const emailError = document.querySelector('.email .error-message');
+const passOneError = document.querySelector('.password-one .error-message');
+const passTwoError = document.querySelector('.password-two .error-message');
 const form=document.querySelector('.register-form');
 
 form.addEventListener('submit',async function(e){
@@ -67,8 +67,8 @@ form.addEventListener('submit',async function(e){
                 const userExists = users.some(u => u.username === username || u.email === email);
                 if (userExists) {
                     emailError.textContent = "User with this email or username already exists!";
-                    emailIn.classList.add("error");
-                    userIn.classList.add('error');
+                    email.classList.add("error");
+                    username.classList.add('error');
                     return;
                 }
                 
