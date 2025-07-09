@@ -1,3 +1,6 @@
+//This is the js file that jandles the switch for ligh and dark mode
+// this "function" was coppied from a yt video 
+
 let darkmode = localStorage.getItem('darkmode')
 const themeSwitch = document.getElementById('theme-switch')
 
@@ -12,14 +15,7 @@ const disableDarkMode=() => {
 
 if (darkmode ==="active") enableDarkMode()
 
-    // On click function 
 themeSwitch.addEventListener("click",()=>{
     darkmode=localStorage.getItem('darkmode')
     darkmode !=="active" ? enableDarkMode(): disableDarkMode()
 })
-
-
-
-
-
-

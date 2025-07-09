@@ -12,11 +12,7 @@
     gap: 10px;
     width: 100%; 
 }
-.clear-btn {
-    grid-column: 1;
-    justify-self: center; 
-    display: none;
-}
+
 
 .add-btn {
     grid-column: 2;

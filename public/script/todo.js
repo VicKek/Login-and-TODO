@@ -1,13 +1,10 @@
 const addBtn = document.querySelector('.add-btn');
-const clearBtn = document.querySelector('.clear-btn');
 const todoList = document.querySelector('.todo-list');
 const compPerc = document.querySelector('.comp-perc');
 const logoutBtn = document.querySelector('.logout');
 let total = 0;
 
-// -----------------------------------------
-// Add Task
-// -----------------------------------------
+
 function createTodoItem(taskData = null) {
 
     // These are the data that are placed for every task item
@@ -54,11 +51,14 @@ function createTodoItem(taskData = null) {
     updateCompletion();
 }
 
+
+//Takes the new task and saves it in the json file and in local storage
 function saveTask(id, name, completed) {
     const task = { id, taskName: name, completed };
     localStorage.setItem(`task-${id}`, JSON.stringify(task));
     updateLoggedInUserTasks();
 }
+
 
 function updateLoggedInUserTasks() {
     const tasks = [];
@@ -77,18 +77,27 @@ function updateLoggedInUserTasks() {
 
 function makeTextEditable(p) {
     p.addEventListener('click', () => {
+    // This makes the text editable
     p.contentEditable = "true";
+    // This is for css
     p.classList.add('editing');
     p.focus();
     });
 
+
+    //for the blur part I askedchat about it. 
     p.addEventListener('blur', () => {
+        // makes it not editable 
         p.contentEditable = "false";
+        //for css
         p.classList.remove('editing');
 
+        //These are to identidy which text was edited
         const parent = p.closest('.todo-item');
         const taskId = parseInt(parent.id);
         const checkbox = parent.querySelector('input[type="checkbox"]');
+
+        //save changes, put them on screen, and on server (json)
         saveTask(taskId, p.textContent, checkbox.checked);
         syncTasksToServer();
     });
@@ -96,18 +105,6 @@ function makeTextEditable(p) {
 }
 
 addBtn.addEventListener('click', () => createTodoItem());
-
-function loadTasksFromLocalStorage() {
-    for (let key in localStorage) {
-        if (key.startsWith("task-")) {
-            const taskData = JSON.parse(localStorage.getItem(key));
-            total++;
-            if (taskData) {
-                createTodoItem(taskData);
-            }
-        }
-    }
-}
 
 function loadTasks() {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -121,12 +118,19 @@ function loadTasks() {
     }
 
     let userHasTasks = false;
+    
+    // This looks at the local strage and load any data from there 
+    // If the user didn;t logout before exiting and saves them in local storage
     for (let key in localStorage) {
-        if (key.startsWith("task-")) {
-            userHasTasks = true;
-            break;
+            if (key.startsWith("task-")) {
+                userHasTasks=true;
+                const taskData = JSON.parse(localStorage.getItem(key));
+                total++;
+                if (taskData) {
+                    createTodoItem(taskData);
+                }
+            }
         }
-    }
 
     if (!userHasTasks && loggedInUser.tasks) {
         for (let task of loggedInUser.tasks) {
@@ -134,10 +138,11 @@ function loadTasks() {
         }
     }
 
-    loadTasksFromLocalStorage();
 }
 
 function updateCompletion() {
+    //Updates the complition mark at the top of the list
+
     const checkboxes = document.querySelectorAll('.todo-item input\[type="checkbox"]');
     const total = checkboxes.length;
     let checkedCount = 0;
@@ -149,21 +154,9 @@ function updateCompletion() {
     compPerc.textContent = `${checkedCount}/${total} (${percentage}%)`;
     compPerc.style.fontWeight = 'bold';
 
-
 }
 
-clearBtn.addEventListener('click', () => {
-    for (let key in localStorage) {
-        if (key.startsWith("task-")) {
-            localStorage.removeItem(key);
-        }
-    }
-    todoList.innerHTML = '';
-    updateLoggedInUserTasks();
-    updateCompletion();
-    syncTasksToServer();
-});
-
+//Clears the local storage information regarding tasks ad user login
 function logout() {
     for (let key in localStorage) {
       if (key.startsWith("task-")) {
@@ -176,11 +169,12 @@ function logout() {
     window.location.href = 'index.html';
 }
 
+//posts any updates to the json file
 function syncTasksToServer() {
     const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
-    if (!loggedInUser) return;
 
-    fetch('/api/users')
+    if(loggedInUser){
+        fetch('/api/users')
         .then(res => res.json())
         .then(users => {
             const userIndex = users.findIndex(u => u.id === loggedInUser.id);
@@ -193,10 +187,12 @@ function syncTasksToServer() {
                 });
             }
         })
-        .catch(console.error);
+    }else{
+        return;
+    }
+    
 }
 
 logoutBtn.addEventListener('click', () => logout());
 
 loadTasks();
-

@@ -1,3 +1,7 @@
+// This js file along with the data_downloader.jtml
+// are made to initialize the user_data.json 
+
+
 class User {
     static _ID = 0;
 
@@ -60,6 +64,8 @@ user2.addTask(task4);
 
 let users = [user1, user2];
 
+
+// This is the format that the json file will have. 
 let usersData = users.map(user => {
     return {
         id: user.getID(),
@@ -74,7 +80,7 @@ let usersData = users.map(user => {
     };
 });
 
-let jsonData = JSON.stringify(usersData, null, 4);  // Pretty print with 4 spaces
+let jsonData = JSON.stringify(usersData, null, 4); 
 
 function downloadJSON(data) {
     const blob = new Blob([data], { type: 'application/json' });

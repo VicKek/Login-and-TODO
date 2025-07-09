@@ -30,7 +30,9 @@ form.addEventListener("submit", async function (e) {
                 usernameEmailError.textContent = "Invalid email format!";
                 usernameEmailInput.classList.add("error");
                 isValid = false;
-            }}}
+            }
+        }
+    }
 
     if (!password) {
         passwordInput.classList.add("error");

@@ -9,7 +9,7 @@ app.use(express.json());
 
 const dataPath = path.join(__dirname, 'users_data.json'); 
 
-// Load all users from the file
+// Load all users and their tasks from the file
 app.get('/api/users', (req, res) => {
     fs.readFile(dataPath, 'utf-8', (err, data) => {
         if (err) {
@@ -27,7 +27,7 @@ app.get('/api/users', (req, res) => {
     });
 });
 
-// Save updated users (new tasks or users)
+// Save updated users 
 app.post('/api/users', (req, res) => {
     const users = req.body;
     fs.writeFile(dataPath, JSON.stringify(users, null, 2), err => {
