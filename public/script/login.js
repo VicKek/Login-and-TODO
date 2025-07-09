@@ -45,7 +45,7 @@ form.addEventListener("submit", async function (e) {
 
     if (isValid) {
         // Load data from file
-        const response = await fetch("users_data.json");
+        const response = await fetch('api/users');
         const users = await response.json();
 
         // If a user haing this info exists

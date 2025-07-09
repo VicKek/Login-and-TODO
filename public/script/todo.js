@@ -3,21 +3,20 @@ const clearBtn = document.querySelector('.clear-btn');
 const todoList = document.querySelector('.todo-list');
 const compPerc = document.querySelector('.comp-perc');
 const logoutBtn = document.querySelector('.logout');
-total=0;
+let total = 0;
+
 // -----------------------------------------
 // Add Task
 // -----------------------------------------
 function createTodoItem(taskData = null) {
-    const taskId = taskData ? taskData.id : ++total;
 
+    const taskId = taskData ? taskData.id : ++total;
     const newItem = document.createElement('div');
     newItem.classList.add('todo-item');
     newItem.id = taskId;
-
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.checked = taskData ? taskData.completed : false;
-
     const taskText = document.createElement('p');
     taskText.classList.add('editable-text');
     taskText.textContent = taskData ? taskData.taskName : 'New Task';
@@ -27,8 +26,8 @@ function createTodoItem(taskData = null) {
     checkbox.addEventListener('change', () => {
         saveTask(taskId, taskText.textContent, checkbox.checked);
         updateCompletion();
+        syncTasksToServer();
     });
-
     const deleteIcon = document.createElement('input');
     deleteIcon.type = 'image';
     deleteIcon.src = 'Images/redred.png';
@@ -37,6 +36,7 @@ function createTodoItem(taskData = null) {
         newItem.remove();
         localStorage.removeItem(`task-${taskId}`);
         updateCompletion();
+        syncTasksToServer();
     });
 
     newItem.appendChild(checkbox);
@@ -46,39 +46,56 @@ function createTodoItem(taskData = null) {
 
     if (!taskData) {
         saveTask(taskId, taskText.textContent, false);
+        syncTasksToServer();
     }
 
     updateCompletion();
 }
+
 function saveTask(id, name, completed) {
-    const task = { id, taskName:name, completed };
+    const task = { id, taskName: name, completed };
     localStorage.setItem(`task-${id}`, JSON.stringify(task));
+    updateLoggedInUserTasks();
 }
-// -----------------------------------------
-// Make Text Editable
-// -----------------------------------------
+
+function updateLoggedInUserTasks() {
+    const tasks = [];
+    for (let key in localStorage) {
+        if (key.startsWith("task-")) {
+            const taskData = JSON.parse(localStorage.getItem(key));
+            if (taskData) tasks.push(taskData);
+    }
+    }
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (loggedInUser) {
+        loggedInUser.tasks = tasks;
+        localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+    }
+}
+
 function makeTextEditable(p) {
     p.addEventListener('click', () => {
-        p.contentEditable = "true";
-        p.classList.add('editing');
-        p.focus();
-    });
+    p.contentEditable = "true";
+    p.classList.add('editing');
+    p.focus();
+});
 
-    p.addEventListener('blur', () => {
-        p.contentEditable = "false";
-        p.classList.remove('editing');
 
-        const parent = p.closest('.todo-item');
-        const taskId = parseInt(parent.id);
-        const checkbox = parent.querySelector('input[type="checkbox"]');
-        saveTask(taskId, p.textContent, checkbox.checked);
-    });
+p.addEventListener('blur', () => {
+    p.contentEditable = "false";
+    p.classList.remove('editing');
+
+    const parent = p.closest('.todo-item');
+    const taskId = parseInt(parent.id);
+    const checkbox = parent.querySelector('input[type="checkbox"]');
+    saveTask(taskId, p.textContent, checkbox.checked);
+    syncTasksToServer();
+});
+
 }
-addBtn.addEventListener('click', () => createTodoItem())
-// -----------------------------------------
-// Load tasks from localStorage
-// -----------------------------------------
-// Total is for IDs
+
+addBtn.addEventListener('click', () => createTodoItem());
+
 function loadTasksFromLocalStorage() {
     for (let key in localStorage) {
         if (key.startsWith("task-")) {
@@ -90,20 +107,16 @@ function loadTasksFromLocalStorage() {
         }
     }
 }
-// -----------------------------------------
-// Load tasks from file
-// -----------------------------------------
+
 function loadTasks() {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
     if (!loggedInUser) {
         alert("You must log in to access your tasks.");
-        window.location.href = "login.html"; 
+        window.location.href = "index.html";
         return;
     }
 
-    // Here I assume that is there are tasks in the local storage
-    // the user is logged in 
     let userHasTasks = false;
     for (let key in localStorage) {
         if (key.startsWith("task-")) {
@@ -119,26 +132,24 @@ function loadTasks() {
     }
 
     loadTasksFromLocalStorage();
+
 }
-// -----------------------------------------
-// Update Completion Counter
-// -----------------------------------------
+
 function updateCompletion() {
-    const checkboxes = document.querySelectorAll('.todo-item input[type="checkbox"]');
+    const checkboxes = document.querySelectorAll('.todo-item input\[type="checkbox"]');
     const total = checkboxes.length;
     let checkedCount = 0;
-
     checkboxes.forEach(cb => {
         if (cb.checked) checkedCount++;
-    });
+});
 
-    const percentage = total === 0 ? 0 : Math.round((checkedCount / total) * 100);
-    compPerc.textContent = `${checkedCount}/${total} (${percentage}%)`;
-    compPerc.style.fontWeight = 'bold';
+const percentage = total === 0 ? 0 : Math.round((checkedCount / total) * 100);
+compPerc.textContent = `${checkedCount}/${total} (${percentage}%)`;
+compPerc.style.fontWeight = 'bold';
+
+
 }
-// -----------------------------------------
-// Clear All Tasks
-// -----------------------------------------
+
 clearBtn.addEventListener('click', () => {
     for (let key in localStorage) {
         if (key.startsWith("task-")) {
@@ -146,21 +157,45 @@ clearBtn.addEventListener('click', () => {
         }
     }
     todoList.innerHTML = '';
+    updateLoggedInUserTasks();
     updateCompletion();
+    syncTasksToServer();
 });
-function logout(){
+
+function logout() {
     for (let key in localStorage) {
-        if (key.startsWith("task-")) {
-            localStorage.removeItem(key);
+      if (key.startsWith("task-")) {
+        localStorage.removeItem(key);
         }
     }
     todoList.innerHTML = '';
-    localStorage.removeItem('loggedInUser')
+    localStorage.removeItem('loggedInUser');
     updateCompletion();
-    window.location.href='login.html'
+    window.location.href = 'index.html';
 }
-logoutBtn.addEventListener('click',()=>logout())
-// -----------------------------------------
-// Initial Load
-// -----------------------------------------
+
+function syncTasksToServer() {
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!loggedInUser) return;
+
+    fetch('/api/users')
+        .then(res => res.json())
+        .then(users => {
+            const userIndex = users.findIndex(u => u.id === loggedInUser.id);
+            if (userIndex !== -1) {
+                users[userIndex].tasks = loggedInUser.tasks;
+                return fetch('/api/users', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(users)
+                });
+            }
+        })
+        .catch(console.error);
+
+}
+
+logoutBtn.addEventListener('click', () => logout());
+
 loadTasks();
+
