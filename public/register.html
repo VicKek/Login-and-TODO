@@ -11,7 +11,7 @@
     <link rel="shortcut icon" type="x-icon" href="Images/logo.png">
 
     <link rel="stylesheet" href="style.css">
-    <script src="script/script.js" type="text/javascript" defer></script>
+    <script src="script/darkmode.js" type="text/javascript" defer></script>
     <script src="script/register.js" type="module" ></script>
     <title>Register</title>
 </head>
@@ -26,22 +26,28 @@
     </header>
     
 <div class="center-box">
-        <form action="">
+        <form class="register-form">
             <p>Enter your Persoanl Information Below!</p>
             <div class="input-box username">
-                <input type="text" placeholder="Username" required>
+                <input type="text" placeholder="Username" required/>
+                <span class="error-msg"></span>
             </div>
-            <div class="input-box password-one">
-                <input type="password" placeholder="Password" required>
-            </div>
-            <div class="input-box password-two">
-                <input type="password" placeholder="Confirm Password" required>
-            </div>
+
             <div class="input-box email">
-                <input type="email" placeholder="example@email.com" required>
+                <input type="email" placeholder="Email"required />
+                <span class="error-msg"></span>
+            </div>
+
+            <div class="input-box password-one">
+                <input type="password" placeholder="Password" required/>
+                <span class="error-msg"></span>
+            </div>
+
+            <div class="input-box password-two">
+                <input type="password" placeholder="Confirm Password" required/>
+                <span class="error-msg"></span>
             </div>
             <button type="submit" class="submit-buttton">Register</button>
-            <button class="clear">CLEAR</button>
         </form>
     </div>
 

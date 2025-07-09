@@ -134,11 +134,7 @@ form{
     padding-right: 3px;
 }
 
-.input-box{
-    margin-top:10px;
-    margin-bottom:10px;
 
-}
 input{
     border-radius: 7px;
     border-style: solid;
@@ -181,4 +177,8 @@ form > button{
     display: block;
 }
 
+.input-box {
+    margin-bottom: 1.2rem;
+    margin-top: 1.2rem;
+}
 

@@ -54,5 +54,28 @@
         "completed": false
       }
     ]
+  },
+  {
+    "id": 3,
+    "username": "testuser",
+    "email": "test@email.com",
+    "password": "nainainai1",
+    "tasks": [
+      {
+        "id": 1,
+        "taskName": "kalimera",
+        "completed": false
+      },
+      {
+        "id": 2,
+        "taskName": "kalinixta",
+        "completed": true
+      },
+      {
+        "id": 3,
+        "taskName": "New Task",
+        "completed": false
+      }
+    ]
   }
 ]

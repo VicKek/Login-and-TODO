@@ -10,6 +10,7 @@ let total = 0;
 // -----------------------------------------
 function createTodoItem(taskData = null) {
 
+    // These are the data that are placed for every task item
     const taskId = taskData ? taskData.id : ++total;
     const newItem = document.createElement('div');
     newItem.classList.add('todo-item');
@@ -39,6 +40,7 @@ function createTodoItem(taskData = null) {
         syncTasksToServer();
     });
 
+    // Place them all in the new Item
     newItem.appendChild(checkbox);
     newItem.appendChild(taskText);
     newItem.appendChild(deleteIcon);
@@ -78,19 +80,18 @@ function makeTextEditable(p) {
     p.contentEditable = "true";
     p.classList.add('editing');
     p.focus();
-});
+    });
 
+    p.addEventListener('blur', () => {
+        p.contentEditable = "false";
+        p.classList.remove('editing');
 
-p.addEventListener('blur', () => {
-    p.contentEditable = "false";
-    p.classList.remove('editing');
-
-    const parent = p.closest('.todo-item');
-    const taskId = parseInt(parent.id);
-    const checkbox = parent.querySelector('input[type="checkbox"]');
-    saveTask(taskId, p.textContent, checkbox.checked);
-    syncTasksToServer();
-});
+        const parent = p.closest('.todo-item');
+        const taskId = parseInt(parent.id);
+        const checkbox = parent.querySelector('input[type="checkbox"]');
+        saveTask(taskId, p.textContent, checkbox.checked);
+        syncTasksToServer();
+    });
 
 }
 
@@ -111,6 +112,8 @@ function loadTasksFromLocalStorage() {
 function loadTasks() {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
+    // This is for the secure part (After a user is logoued out)
+    // The local stoage is reset and you can't access the todo list via: localhost:3000/todo.html
     if (!loggedInUser) {
         alert("You must log in to access your tasks.");
         window.location.href = "index.html";
@@ -132,7 +135,6 @@ function loadTasks() {
     }
 
     loadTasksFromLocalStorage();
-
 }
 
 function updateCompletion() {
@@ -141,11 +143,11 @@ function updateCompletion() {
     let checkedCount = 0;
     checkboxes.forEach(cb => {
         if (cb.checked) checkedCount++;
-});
+    });
 
-const percentage = total === 0 ? 0 : Math.round((checkedCount / total) * 100);
-compPerc.textContent = `${checkedCount}/${total} (${percentage}%)`;
-compPerc.style.fontWeight = 'bold';
+    const percentage = total === 0 ? 0 : Math.round((checkedCount / total) * 100);
+    compPerc.textContent = `${checkedCount}/${total} (${percentage}%)`;
+    compPerc.style.fontWeight = 'bold';
 
 
 }
@@ -192,7 +194,6 @@ function syncTasksToServer() {
             }
         })
         .catch(console.error);
-
 }
 
 logoutBtn.addEventListener('click', () => logout());

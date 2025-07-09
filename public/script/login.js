@@ -13,18 +13,16 @@ form.addEventListener("submit", async function (e) {
 
     let isValid = true;
 
-    // clear from previous errors 
-    usernameEmailError.textContent = "";
-    passwordError.textContent = "";
-    usernameEmailInput.classList.remove("error");
-    passwordInput.classList.remove("error");
+    // clear from previous errors - inputs
+    [usernameEmailError,passwordError].forEach(x=> x.textContent="");
+    [usernameEmailInput,passwordInput].forEach(x=>x.classList.remove('error'));
 
     const usernameOrEmail = usernameEmailInput.value.trim();
     const password = passwordInput.value;
     
     if (!usernameOrEmail) {
-    usernameEmailInput.classList.add("error");
-    isValid = false;
+        usernameEmailInput.classList.add("error");
+        isValid = false;
     } else {
         // If it is an email (has @)
         if (usernameOrEmail.includes("@")) {
