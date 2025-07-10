@@ -82,5 +82,33 @@
         "completed": true
       }
     ]
+  },
+  {
+    "id": 4,
+    "username": "victor",
+    "email": "nai@nai.com",
+    "password": "password123",
+    "tasks": [
+      {
+        "id": 3,
+        "taskName": "3",
+        "completed": true
+      },
+      {
+        "id": 5,
+        "taskName": "basketball",
+        "completed": false
+      },
+      {
+        "id": 1,
+        "taskName": "My first Task",
+        "completed": false
+      },
+      {
+        "id": 2,
+        "taskName": "My second taks",
+        "completed": true
+      }
+    ]
   }
 ]

@@ -4,6 +4,7 @@ In order to run the app, you will need to open the `terminal` in the project fol
 ``` bash
 node server.js
 ```
+(node version: v22.17.0)
 
 After that, if everything went well you will see 
 
