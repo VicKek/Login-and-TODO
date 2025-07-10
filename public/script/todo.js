@@ -124,11 +124,7 @@ function loadTasks() {
     for (let key in localStorage) {
             if (key.startsWith("task-")) {
                 userHasTasks=true;
-                const taskData = JSON.parse(localStorage.getItem(key));
-                total++;
-                if (taskData) {
-                    createTodoItem(taskData);
-                }
+                break;
             }
         }
 
@@ -137,7 +133,16 @@ function loadTasks() {
             localStorage.setItem(`task-${task.id}`, JSON.stringify(task));
         }
     }
-
+    
+    for (let key in localStorage) {
+                if (key.startsWith("task-")) {
+                    const taskData = JSON.parse(localStorage.getItem(key));
+                    total++;
+                    if (taskData) {
+                        createTodoItem(taskData);
+                    }
+                }
+            }
 }
 
 function updateCompletion() {

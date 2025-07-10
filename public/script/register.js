@@ -46,14 +46,12 @@ form.addEventListener('submit',async function(e){
         isValid = false;
     }
 
-    // Password check
     if (!isValidPassword(pass1)) {
         passOneError.textContent = "Password must be 8+ chars with letters & numbers.";
         passOneInput.classList.add('error');
         isValid = false;
     }
 
-    // Password confirmation
     if (pass1 !== pass2) {
         passTwoError.textContent = "Passwords do not match.";
         passTwoInput.classList.add('error');
