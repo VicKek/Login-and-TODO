@@ -33,9 +33,17 @@ function createTodoItem(taskData = null) {
     deleteIcon.addEventListener('click', () => {
         newItem.remove();
         localStorage.removeItem(`task-${taskId}`);
+
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+        if (loggedInUser) {
+            loggedInUser.tasks = loggedInUser.tasks.filter(task => task.id !== taskId);
+            localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+        }
+
         updateCompletion();
         syncTasksToServer();
     });
+
 
     // Place them all in the new Item
     newItem.appendChild(checkbox);
@@ -49,6 +57,8 @@ function createTodoItem(taskData = null) {
     }
 
     updateCompletion();
+    syncTasksToServer();
+
 }
 
 
@@ -115,34 +125,23 @@ function loadTasks() {
         alert("You must log in to access your tasks.");
         window.location.href = "index.html";
         return;
-    }
-
-    let userHasTasks = false;
-    
+    }else{
     // This looks at the local strage and load any data from there 
     // If the user didn;t logout before exiting and saves them in local storage
-    for (let key in localStorage) {
-            if (key.startsWith("task-")) {
-                userHasTasks=true;
-                break;
-            }
-        }
-
-    if (!userHasTasks && loggedInUser.tasks) {
         for (let task of loggedInUser.tasks) {
             localStorage.setItem(`task-${task.id}`, JSON.stringify(task));
         }
-    }
-    
-    for (let key in localStorage) {
-                if (key.startsWith("task-")) {
-                    const taskData = JSON.parse(localStorage.getItem(key));
-                    total++;
-                    if (taskData) {
-                        createTodoItem(taskData);
-                    }
+        for (let key in localStorage) {
+            if (key.startsWith("task-")) {
+                const taskData = JSON.parse(localStorage.getItem(key));
+                total++;
+                if (taskData) {
+                    createTodoItem(taskData);
                 }
             }
+        }
+    }
+    
 }
 
 function updateCompletion() {
