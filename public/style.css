@@ -35,7 +35,7 @@
     border: solid black;
     padding: 12px;
     max-width: 600px;
-    margin: 24px auto 0 auto; /* Top-centered */
+    margin: 24px auto 0 auto; 
 }
 
 .todo-list {
@@ -48,7 +48,9 @@
     margin-top: 12px;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
+
 .error-message {
     color: red;
     font-size: 0.9em;
@@ -138,11 +140,7 @@ input{
 form > button{
     margin-bottom: 12px;
 }
-.center-box{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 #theme-switch{
     height: 50px;
